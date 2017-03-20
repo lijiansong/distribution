@@ -5,7 +5,8 @@ This archieve is my first HDFS project. You can follow the steps below to build 
 - Ubuntu 14.04
 - Hadoop 2.7.3
 - Eclipse Neon.1 Release (4.6.1)
-I build the plugin from the source code of hadoop-2.7.3-src, you can follow BUILDING.txt in the src folder to build it. Then follow this [page](http://blog.csdn.net/young_kim1/article/details/50208837) to config Eclipse...
+
+I build the plugin from the source code of hadoop-2.7.3-src, you can follow `BUILDING.txt` in the src folder to build it. Then follow this [page](http://blog.csdn.net/young_kim1/article/details/50208837) to config Eclipse... Now you can start your project...
 
 ## Build
 - Fisrtly, you need to put the local file to HDFS by taking use of `copyFromLocal` or `put`, here I use `put` to copy test.dat to root of HDFS.
