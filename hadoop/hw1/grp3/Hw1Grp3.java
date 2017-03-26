@@ -135,10 +135,10 @@ public class Hw1Grp3 {
 			}
 			inputStream.close();
 			hdfs.close();
-			System.out.println("newOpMap: ");
-			for(Map.Entry<Integer, Integer> entry:mNewOpMap.entrySet()){
-				System.out.println(entry.getKey()+" "+entry.getValue());
-			}
+//			System.out.println("newOpMap: ");
+//			for(Map.Entry<Integer, Integer> entry:mNewOpMap.entrySet()){
+//				System.out.println(entry.getKey()+" "+entry.getValue());
+//			}
 			
 			/**process the data by sorting them then calculate the max and average*/
 			Collections.sort(dataList,new Comparator<ArrayList<String> >() {
@@ -159,14 +159,16 @@ public class Hw1Grp3 {
 			String groupByStr=dataList.get(0).get(0);
 			mCount=0;
 			//result=new double[mNewOpMap.size()];
-			result=new double[3];result[2]=Double.MIN_VALUE;
+			result=new double[3];
 			Arrays.fill(result, 0);
+			result[2]=Double.MIN_VALUE;
 			for(ArrayList<String> record:dataList){
 				if(!groupByStr.equals(record.get(0))){
 					hbaseInsert(groupByStr);
 					mCount=0;
 					groupByStr=record.get(0);
 					Arrays.fill(result, 0);
+					result[2]=Double.MIN_VALUE;
 				}
 				++mCount;
 				for(Map.Entry<Integer, Integer> entry:mNewOpMap.entrySet()){
@@ -186,6 +188,7 @@ public class Hw1Grp3 {
 			hbaseInsert(groupByStr);
 			mCount=0;
 			Arrays.fill(result, 0);
+			result[2]=Double.MIN_VALUE;
 			mHTable.close();
 			System.out.println("succeed!");
 		}
