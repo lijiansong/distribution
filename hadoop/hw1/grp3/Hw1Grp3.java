@@ -177,8 +177,7 @@ public class Hw1Grp3 {
 						result[1]+=Double.valueOf(record.get(entry.getValue()));
 						break;
 					case 3:
-						if(result[2] - Double.valueOf(record.get(entry.getValue())) < 1e-6)
-							result[2]=Double.valueOf(record.get(entry.getValue()));
+						result[2]=Math.max(result[2], Double.valueOf(record.get(entry.getValue())));
 						break;
 					default:
 						break;
