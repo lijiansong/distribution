@@ -1,17 +1,11 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.InterruptedIOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
@@ -23,10 +17,10 @@ import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.MasterNotRunningException;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.ZooKeeperConnectionException;
+import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Put;
-import org.apache.hadoop.hbase.client.RetriesExhaustedWithDetailsException;
 
 //hash join
 public class Hw1Grp0 {
@@ -36,6 +30,7 @@ public class Hw1Grp0 {
 	private static String mColumnFamily;//member variable, column family
 	private static HTable mHTable;//member variable, Hbase table
 	private static ArrayList<int[]> mOperation;//table name and column key,1:R table,2:S table
+	private static ArrayList<int[]> mNewOperation;//new map to store the new index for the R table
 	
 	public static void main(String[] args) throws IOException,URISyntaxException,MasterNotRunningException,ZooKeeperConnectionException {
 		/**the argument's length must be 4, so the first step is to parse the argument string*/
@@ -62,6 +57,18 @@ public class Hw1Grp0 {
 				map[1]=Integer.valueOf(key.substring(1));
 				mOperation.add(map);
 			}
+			//update the new index 
+			int tmpCnt=0;
+			mNewOperation=new ArrayList<int[]>();
+			for(int[] tmpMap:mOperation){
+				map=new int[2];
+				if(tmpMap[0]==1){//R table
+					map[0]=tmpMap[1];
+					map[1]=tmpCnt;
+					++tmpCnt;
+				}
+				mNewOperation.add(map);
+			}
 			
 			//create hbase table
 			HTableDescriptor hTableDescriptor=new HTableDescriptor(TableName.valueOf(TABLENAME));
@@ -76,21 +83,21 @@ public class Hw1Grp0 {
 			hBaseAdmin.createTable(hTableDescriptor);
 			hBaseAdmin.close();
 			mHTable=new HTable(conf, TABLENAME);
-			
+			//for R table
 			Configuration hdfsConf=new Configuration();
 			FileSystem rHdfs = FileSystem.get(URI.create(rFilePath), hdfsConf);
 	        Path rPath = new Path(rFilePath);
 	        FSDataInputStream rInputStream = rHdfs.open(rPath);
 	        BufferedReader rReader = new BufferedReader(new InputStreamReader(rInputStream));
 	        String rLine;
-
+	        //for S table
 	        FileSystem sHdfs= FileSystem.get(URI.create(sFilePath), hdfsConf);
 	        Path sPath = new Path(sFilePath);
 	        FSDataInputStream sInputStream = sHdfs.open(sPath);
 	        BufferedReader sReader = new BufferedReader(new InputStreamReader(sInputStream));
 	        String sLine;
 			
-	        //read R table into hash table
+	        //read R table into hash table, to save the memory space we only read the necessary column in the R table
 	        Hashtable<String, ArrayList<ArrayList<String>>> rHashtable=new Hashtable<String,ArrayList<ArrayList<String>>>();
 	        ArrayList<ArrayList<String>> value=null;
 	        ArrayList<String> valueTuple=null;//data to be stored in one line
@@ -111,15 +118,47 @@ public class Hw1Grp0 {
 	        	}
 	        }
 	        
+	        for(Entry<String, ArrayList<ArrayList<String>>> entry:rHashtable.entrySet()){
+	        	System.out.print("key: "+entry.getKey()+" value: ");
+	        	for(ArrayList<String> arrayStr:entry.getValue()){
+	        		for(String _str:arrayStr){
+						System.out.print(_str+" ");
+					}
+					System.out.println();
+	        	}
+	        }
+	        
+	        
 	        int count=0;
+	        String valueStr,keyStr;
 	        while((sLine=sReader.readLine())!=null){
 	        	String []oneLine=sLine.split("\\|");
 	        	if(rHashtable.containsKey(oneLine[sJoinKey])){
 	        		Put put=new Put(oneLine[sJoinKey].getBytes());
-	        		
+	        		//examples see [here](http://blog.sina.com.cn/s/blog_6ae183e50100ytfc.html)
+	        		count=mHTable.get(new Get(oneLine[sJoinKey].getBytes())).size()/mOperation.size();
+	        		for(ArrayList<String> rRecord:rHashtable.get(oneLine[sJoinKey])){
+	        			for(int i=0;i<mOperation.size();++i){
+	        				map=mOperation.get(i);
+	        				if(count==0){
+	        					keyStr=resKeys[i];
+	        				}else{
+	        					keyStr=resKeys[i]+"."+count;
+	        				}
+	        				if(map[0]==1){//R table
+	        					valueStr=rRecord.get(mNewOperation.get(i)[1]);
+	        				}else{//S table
+	        					valueStr=oneLine[map[1]];
+	        				}
+	        				put.add(mColumnFamily.getBytes(), keyStr.getBytes(), valueStr.getBytes());
+	        			}
+	        			++count;
+	        		}
+	        		mHTable.put(put);
 	        	}
 	        }
-	        
+	        mHTable.close();
+	        System.out.println("succeed!");
 		}
 		else{
 			//args error
