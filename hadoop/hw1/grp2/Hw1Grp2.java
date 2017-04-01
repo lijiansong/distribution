@@ -4,10 +4,9 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.hadoop.conf.Configuration;
@@ -28,14 +27,16 @@ public class Hw1Grp2 {
 
 	private static class Value{
 		int count;
-		double []result=new double[3];
+		//double []result=new double[3];
+		double []result;
 	}
 	/** Hbase table name */
 	private static final String TABLENAME="Result";
 	private static String mColumnFamily;//member variable, column family
 	private static HTable mHTable;//member variable, Hbase table
 	//private static int mCount;//the number of each group by key
-	private static Map<Integer,Integer> mOpMap;//operation map, key is operation number, e.g. count 1, avg 2, max 3, value is column number
+	//private static Map<Integer,Integer> mOpMap;//operation map, key is operation number, e.g. count 1, avg 2, max 3, value is column number
+	private static ArrayList<int[]> mOpMap;
 	//private static Map<Integer, Integer> mNewOpMap;//new operation map, key is operation number, e.g. count 1, avg 2, max 3, value is new column number, start from 0
 	//private static double []result;//group by result, result[0] count, result[1] avg, result[2] max
 	private static Hashtable<String, Value> mHashtable;//hash table, key is group by key, value is the result, e.g. count:result[0], avg:result[1], max:result[2]
@@ -43,6 +44,7 @@ public class Hw1Grp2 {
 	public static void main(String[] args) throws IOException,URISyntaxException,MasterNotRunningException,ZooKeeperConnectionException {
 		/**the argument's length must be 3, so the first step is to parse the argument string*/
 		if(args.length==3){
+			//java Hw1Grp3 R=/test.txt groupby:R2 res:avg(R3),count,avg(R0),max(R4),max(R0)
 			//parse the argument string
 			String hdfsFilePath="hdfs://localhost:9000"+args[0].substring(2);
 			int groupByNo=Integer.parseInt(args[1].substring(args[1].indexOf("R")+1));//group by number
@@ -54,26 +56,28 @@ public class Hw1Grp2 {
 //			for(String s:operation){
 //				System.out.println(s);
 //			}
-			mOpMap =new HashMap<Integer, Integer>();//key is count avg or max, value is the columnNo
-			for(int i=0;i<operation.length;++i){
-				if(operation[i].substring(0, 5).equals("count")){
-					//count
-					mOpMap.put(1, 0);
+			//mOpMap =new HashMap<Integer, Integer>();//key is count avg or max, value is the columnNo
+			mOpMap=new ArrayList<int[]>();
+			int []map=null;
+			for(String op:operation){
+				map=new int[2];
+				if(op.substring(0, 5).equals("count")){
+					map[0]=1;
+					//map[1]=0;
+				}else if(op.substring(0,3).equals("avg")){
+					map[0]=2;
+					map[1]=Integer.parseInt(op.substring(op.indexOf("R")+1, op.indexOf(")")));
+				}else if(op.substring(0,3).equals("max")){
+					map[0]=3;
+					map[1]=Integer.parseInt(op.substring(op.indexOf("R")+1, op.indexOf(")")));
+				}else{
+					//error
 				}
-				else if(operation[i].substring(0, 3).equals("avg")){
-					//avg(R3)
-					int indexR=operation[i].indexOf("R");
-					int indexRight=operation[i].indexOf(")");
-					int colNum=Integer.parseInt(operation[i].substring(indexR+1, indexRight));
-					mOpMap.put(2, colNum);
-				}
-				else if(operation[i].substring(0, 3).equals("max")){
-					//max(R4)
-					int indexR=operation[i].indexOf("R");
-					int indexRight=operation[i].indexOf(")");
-					int colNum=Integer.parseInt(operation[i].substring(indexR+1, indexRight));
-					mOpMap.put(3, colNum);
-				}//else argument error
+				mOpMap.add(map);
+			}
+			System.out.println("mOpMap: ");
+			for(int[] _map:mOpMap){
+				System.out.println(_map[0]+" "+_map[1]);
 			}
 			
 			//create hbase table
@@ -103,19 +107,23 @@ public class Hw1Grp2 {
 				String []oneLine=line.split("\\|");
 				Value val=new Value();
 				val.count=0;
+				val.result=new double[mOpMap.size()];
 				Arrays.fill(val.result, 0);
+				//max result initialization
+				for(int i=0;i<mOpMap.size();++i){
+					map=mOpMap.get(i);
+					if(map[0]==3) val.result[i]=Double.MIN_VALUE;
+				}
 				if(mHashtable.containsKey(oneLine[groupByNo])){
 					val.count=mHashtable.get(oneLine[groupByNo]).count+1;
-					for(Map.Entry<Integer, Integer> entry:mOpMap.entrySet()){
-						switch (entry.getKey()) {
-//						case 1://count
-//							val.result[0]
-//							break;
+					for(int i=0;i<mOpMap.size();++i){
+						map=mOpMap.get(i);
+						switch (map[0]) {
 						case 2://avg
-							val.result[1]=mHashtable.get(oneLine[groupByNo]).result[1]+Double.valueOf(oneLine[entry.getValue()]);
+							val.result[i]=mHashtable.get(oneLine[groupByNo]).result[i]+Double.valueOf(oneLine[map[1]]);
 							break;
 						case 3://max
-							val.result[2]=Math.max(mHashtable.get(oneLine[groupByNo]).result[2], Double.valueOf(oneLine[entry.getValue()]));
+							val.result[i]=Math.max(mHashtable.get(oneLine[groupByNo]).result[i], Double.valueOf(oneLine[map[1]]));
 							break;
 						default:
 							break;
@@ -123,13 +131,14 @@ public class Hw1Grp2 {
 					}
 				}else{//not contains
 					val.count=1;
-					for(Map.Entry<Integer, Integer> entry:mOpMap.entrySet()){
-						switch (entry.getKey()) {
+					for(int i=0;i<mOpMap.size();++i){
+						map=mOpMap.get(i);
+						switch (map[0]) {
 						case 2://avg
-							val.result[1]=Double.valueOf(oneLine[entry.getValue()]);
+							val.result[i]=Double.valueOf(oneLine[map[1]]);
 							break;
 						case 3://max
-							val.result[2]=Double.valueOf(oneLine[entry.getValue()]);
+							val.result[i]=Double.valueOf(oneLine[map[1]]);
 							break;
 						default:
 							break;
@@ -143,16 +152,17 @@ public class Hw1Grp2 {
 			//insert into hbase
 			for(Entry<String, Value> entry:mHashtable.entrySet()){
 				Put put=new Put(entry.getKey().getBytes());
-				for(Map.Entry<Integer, Integer> mapEntry:mOpMap.entrySet()){
-					switch (mapEntry.getKey()) {
+				for(int i=0;i<mOpMap.size();++i){
+					map=mOpMap.get(i);
+					switch (map[0]) {
 					case 1:
 						put.add(mColumnFamily.getBytes(),("count").getBytes(),(entry.getValue().count+"").getBytes());
 						break;
 					case 2:
-						put.add(mColumnFamily.getBytes(),("avg(R"+mOpMap.get(mapEntry.getKey())+")").getBytes(),(new DecimalFormat("##0.00").format(entry.getValue().result[1]/entry.getValue().count).getBytes()));
+						put.add(mColumnFamily.getBytes(),("avg(R"+map[1]+")").getBytes(),(new DecimalFormat("##0.00").format(entry.getValue().result[i]/entry.getValue().count).getBytes()));
 						break;
 					case 3:
-						put.add(mColumnFamily.getBytes(),("max(R"+mOpMap.get(mapEntry.getKey())+")").getBytes(),(entry.getValue().result[2]+"").getBytes());
+						put.add(mColumnFamily.getBytes(),("max(R"+map[1]+")").getBytes(),(entry.getValue().result[i]+"").getBytes());
 						break;
 					default:
 						break;
