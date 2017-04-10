@@ -1,6 +1,5 @@
 /**
  *count and average time by modifying the word count example,
- *lijiansong, 201618013229011
  *@author Json Lee
  *@version V1.0.0
  */
