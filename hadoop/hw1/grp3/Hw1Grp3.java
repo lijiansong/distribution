@@ -1,3 +1,4 @@
+//checking result : no more than 8',that is very fucking, I really don't know what's wrong....
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
