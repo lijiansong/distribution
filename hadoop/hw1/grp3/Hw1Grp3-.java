@@ -52,7 +52,7 @@ public class Hw1Grp3 {
 			//java Hw1Grp3 R=/test.txt groupby:R2 res:avg(R3),count,avg(R0),max(R4),max(R0)
 			//parse the argument string
 			String hdfsFilePath="hdfs://localhost:9000"+args[0].substring(2);
-			int groupByNo=Integer.parseInt(args[1].substring(args[1].indexOf("R")+1));//group by number
+			final int groupByNo=Integer.parseInt(args[1].substring(args[1].indexOf("R")+1));//group by number
 			mColumnFamily=args[2].split(":")[0];//column family
 			String []operation=args[2].split(":")[1].split(",");
 
