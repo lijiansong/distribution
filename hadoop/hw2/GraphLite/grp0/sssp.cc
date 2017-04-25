@@ -49,7 +49,7 @@ public:
         unsigned long long last_vertex;
         unsigned long long from;
         unsigned long long to;
-         unsigned long long weight = 0;
+        unsigned long long weight = 0;
         
         int64_t value = 0;
         int outdegree = 0;
@@ -70,7 +70,8 @@ public:
             // Note: modify this if an edge weight is to be read
             //       modify the 'weight' variable
 
-            sscanf(line, "%lld %lld", &from, &to);
+            //sscanf(line, "%lld %lld", &from, &to);
+            sscanf(line, "%lld %lld %lld", &from, &to,&weight);
             if (last_vertex != from) {
                 addVertex(last_vertex, &value, outdegree);
                 last_vertex = from;
