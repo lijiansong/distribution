@@ -1,6 +1,6 @@
 ## Lock Service
 This archieve mainly focuses on the task of Parallel and Distributed Computing @ UCAS-SCCE.
-The source code is the implement of a simple lock service. The originally RPC libraries are based on [Mit 6.824 distributed system course lab lib-- frangipani.](https://pdos.csail.mit.edu/archive/6.824)
+The source code is the implement of a simple lock service. The original RPC library is based on [Mit 6.824 distributed system course lab lib-- frangipani.](https://pdos.csail.mit.edu/archive/6.824)
 
 ### Description
 Firstly, you are supposed to implement a `lock service`.
