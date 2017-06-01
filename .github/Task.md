@@ -12,3 +12,4 @@ Several existing distributed systems courses from other universities:
 - follow this [guide](http://storm.apache.org/releases/2.0.0-SNAPSHOT/storm-sql-internal.html) to develop apache storm based SQL
 - [github events api](https://developer.github.com/v3/activity/events/), you can use these APIs to analyse github activities
 - follow this [guide](https://www.tutorialspoint.com/apache_storm/apache_storm_installation.htm) and [this](http://www.powerxing.com/install-storm/) to install Apache Storm
+- follow this [guide](https://github.com/antlr/antlr4/blob/master/doc/getting-started.md) to install ANTLR
