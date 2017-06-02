@@ -13,3 +13,4 @@ Several existing distributed systems courses from other universities:
 - [github events api](https://developer.github.com/v3/activity/events/), you can use these APIs to analyse github activities
 - follow this [guide](https://www.tutorialspoint.com/apache_storm/apache_storm_installation.htm) and [this](http://www.powerxing.com/install-storm/) to install Apache Storm
 - follow this [guide](https://github.com/antlr/antlr4/blob/master/doc/getting-started.md) to install ANTLR
+- follow this [guide](https://stackoverflow.com/questions/21051991/importing-jar-file-into-intellij-idea) to add antlr jar files to intellij idea
