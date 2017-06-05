@@ -62,7 +62,12 @@ public class TestParser {
     }
 
     public static void main(String[] args) throws Exception{
-        String testStr="select s1.r1,s2.r2, avg(s2.r2), count(s1.r5) from s1,s2 where s1.r1=s2.r1 and s1.r3>100 group by s1.r4 within 20";
-        run(testStr);
+        String []testStr={
+                "select s1.r1,s2.r2, avg(s2.r2), count(s1.r5) from s1,s2 where s1.r1=s2.r1 and s1.r3>100 group by s1.r4 within 20",
+                "select s1.r1,s2.r2 from s1,s2 where s1.r2=s2.r1",
+                "select s1.r2,avg(s1.r1) from s1",
+                "select s1.r1,s2.r2 from s1,s2 where s1.r2=s2.r1 group by s1.r3",
+                "select s1.r1,avg(s1.r2), count(s1.r5) from s1 where s1.r3>100 group by s1.r4 within 20"};
+        for(String str:testStr) run(str);
     }
 }

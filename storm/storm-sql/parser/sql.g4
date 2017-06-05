@@ -7,7 +7,7 @@ package storm_sql.parser;
 root
     : 'select' select_list
     'from' table_sources
-    'where' search_condition
+    ('where' search_condition)?
     ('group' 'by' group_by_item (',' group_by_item)*)?
     ('having' search_condition)?
     ('within' within_time)?
