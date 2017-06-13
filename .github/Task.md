@@ -7,9 +7,11 @@ Several existing distributed systems courses from other universities:
 ## Mit 6.033
 - [Computer System](http://web.mit.edu/6.033/www/)
 
-## Stanford CS224d
-- [Deep Learning for Natural Language Processing](http://cs224d.stanford.edu/)
+## NLP
+- [Stanford CS224d: Deep Learning for Natural Language Processing](http://cs224d.stanford.edu/)
 - [Stanford NLP GitHub Page](https://github.com/stanfordnlp/)
+- [CMU NLP](http://demo.clab.cs.cmu.edu/NLP/)
+- [6.863J/9.611J Natural Language Processing: Fall 2012](http://web.mit.edu/6.863/www/fall2012/)
 
 ## Apache Storm
 - [apache storm tutorial](http://www.tutorialspoint.com/apache_storm/index.htm)
