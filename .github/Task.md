@@ -9,6 +9,8 @@ Several existing distributed systems courses from other universities:
 
 ## Stanford CS224d
 - [Deep Learning for Natural Language Processing](http://cs224d.stanford.edu/)
+- [Stanford NLP GitHub Page](https://github.com/stanfordnlp/)
+
 ## Apache Storm
 - [apache storm tutorial](http://www.tutorialspoint.com/apache_storm/index.htm)
 - follow this [guide](http://storm.apache.org/releases/2.0.0-SNAPSHOT/storm-sql-internal.html) to develop apache storm based SQL
