@@ -23,3 +23,6 @@ Several existing distributed systems courses from other universities:
 - ~~follow this [guide](https://stackoverflow.com/questions/21051991/importing-jar-file-into-intellij-idea) to add antlr jar files to intellij idea~~
 - follow this [guide](http://mvnrepository.com/artifact/org.antlr/antlr4-runtime/4.7) to add ANTLR dependency of maven into pom.xml
 - Notice: when you develop ANTLR programs, the import libs should choose `org.antlr.v4.runtime.*`, here `v4` is very import, otherwise you will get unexpected errs.
+
+## TensorFlow
+- tensorflow [tutorial](https://www.tensorflow.org/versions/r0.12/get_started/index.html)
