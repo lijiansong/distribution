@@ -26,3 +26,4 @@ Several existing distributed systems courses from other universities:
 
 ## TensorFlow
 - tensorflow [tutorial](https://www.tensorflow.org/versions/r0.12/get_started/index.html)
+- [Bazel](https://github.com/bazelbuild/bazel) is Google's own build tool, now publicly available in Beta
