@@ -28,3 +28,8 @@ Several existing distributed systems courses from other universities:
 - tensorflow [tutorial](https://www.tensorflow.org/versions/r0.12/get_started/index.html)
 - [Bazel](https://github.com/bazelbuild/bazel) is Google's own build tool, now publicly available in Beta
 - TensorFlow [Playground example](http://playground.tensorflow.org)
+
+## Actor Model
+- [basic conceptions](https://en.wikipedia.org/wiki/Actor_model)
+- [The actor model in 10 minutes](http://www.brianstorti.com/the-actor-model/)
+- [Actor model, csdn](http://blog.csdn.net/gulianchao/article/details/7249117)
