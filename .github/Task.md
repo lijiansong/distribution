@@ -6,6 +6,8 @@ Several existing distributed systems courses from other universities:
 
 ## Mit 6.033
 - [Computer System](http://web.mit.edu/6.033/www/)
+- Uppsala University Department of Information Technology [Compiler Design](http://user.it.uu.se/~kostis/Teaching/KT1-11/Slides/)
+
 
 ## NLP
 - [Stanford CS224d: Deep Learning for Natural Language Processing](http://cs224d.stanford.edu/)
