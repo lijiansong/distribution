@@ -10,11 +10,14 @@ Several existing distributed systems courses from other universities:
 
 
 ## NLP
-- [Stanford CS224d: Deep Learning for Natural Language Processing](http://cs224d.stanford.edu/)
-- [Stanford NLP GitHub Page](https://github.com/stanfordnlp/)
-- [CMU NLP](http://demo.clab.cs.cmu.edu/NLP/)
-- [6.863J/9.611J Natural Language Processing: Fall 2012](http://web.mit.edu/6.863/www/fall2012/)
-- [COMS W4705: Natural Language Processing](http://www.cs.columbia.edu/~cs4705/)
+- course links
+  - [Stanford CS224d: Deep Learning for Natural Language Processing](http://cs224d.stanford.edu/)
+  - [Stanford NLP GitHub Page](https://github.com/stanfordnlp/)
+  - [CMU NLP](http://demo.clab.cs.cmu.edu/NLP/)
+  - [6.863J/9.611J Natural Language Processing: Fall 2012](http://web.mit.edu/6.863/www/fall2012/)
+  - [COMS W4705: Natural Language Processing](http://www.cs.columbia.edu/~cs4705/)
+- Stanford word representation model: GloVe, [paper](https://nlp.stanford.edu/pubs/glove.pdf), [dataset](https://nlp.stanford.edu/data/) & [link](https://nlp.stanford.edu/projects/glove/)
+
 
 ## Apache Storm
 - [apache storm tutorial](http://www.tutorialspoint.com/apache_storm/index.htm)
