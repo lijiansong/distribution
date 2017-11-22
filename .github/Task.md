@@ -18,6 +18,9 @@ Several existing distributed systems courses from other universities:
   - [COMS W4705: Natural Language Processing](http://www.cs.columbia.edu/~cs4705/)
 - Stanford word representation model: GloVe, [paper](https://nlp.stanford.edu/pubs/glove.pdf), [dataset](https://nlp.stanford.edu/data/) & [link](https://nlp.stanford.edu/projects/glove/)
 
+## Kubernetes
+- Kubernetes 1.8.x install, ref to this [page](https://www.kubernetes.org.cn/3096.html)
+
 
 ## Apache Storm
 - [apache storm tutorial](http://www.tutorialspoint.com/apache_storm/index.htm)
