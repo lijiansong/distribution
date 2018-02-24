@@ -4,6 +4,7 @@ Several existing distributed systems courses from other universities:
 - [NYU’s distributed systems course (G22.3033)](http://www.news.cs.nyu.edu/~jinyang/fa16-ds/), developed by Jinyang Li
 - [CMU’s distributed systems course (15-440)](http://www.cs.cmu.edu/~dga/15-440/F10/), developed by David Andersen
 - How to design large-scale system, you can refer to this github repo: <https://github.com/donnemartin/system-design-primer>
+- Back-end design for Scalability, Availability and Stability, checkout this github repo: <https://github.com/binhnguyennus/awesome-scalability>
 
 ## Mit 6.033
 - [Computer System](http://web.mit.edu/6.033/www/)
