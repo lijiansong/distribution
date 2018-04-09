@@ -43,3 +43,6 @@ Several existing distributed systems courses from other universities:
 - [The actor model in 10 minutes](http://www.brianstorti.com/the-actor-model/)
 - [Actor model, csdn](http://blog.csdn.net/gulianchao/article/details/7249117)
 - [AKKA message dispatcher ](http://rerun.me/2014/09/19/akka-notes-actor-messaging-1/)
+
+## Others
+- RAFT: <https://raft.github.io/raft.pdf>
